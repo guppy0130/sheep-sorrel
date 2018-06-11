@@ -1,0 +1,21 @@
+{
+  "name": "sheep-sorrel",
+  "version": "1.0.0",
+  "description": "A book generator in JS, inspired by Pollen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sheel-sorrel",
+    "pollen"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-compile-handlebars": "^0.6.1",
+    "gulp-sass": "^4.0.1"
+  }
+}
