@@ -33,8 +33,9 @@ gulp.task('pages', (done) => {
     });
 
     let directory = {
-        title: 'Super Duper Testing',
-        chapters: {}
+        title: 'Book Title',
+        chapters: {},
+        order: []
     };
 
     fs.readFile('./src/views/templates/page.hbs', 'utf8', (err, templateString) => {
@@ -46,7 +47,6 @@ gulp.task('pages', (done) => {
             }))
             .pipe(tap((file, t) => {
                 let data = JSON.parse(file.contents.toString());
-                console.log(data);
                 file.contents = Buffer.from(template(data));
 
                 let relativeArray = path.relative(__dirname + '/src/content', file.path).split(path.sep);
@@ -54,14 +54,22 @@ gulp.task('pages', (done) => {
                 if (relativeArray.length >= 3) {
                     throw new Error('only files one folder deep are allowed.');
                 }
-                if (!(relativeArray[0] in directory['chapters'])) {
-                    directory['chapters'][relativeArray[0]] = [];
+                let canon = relativeArray[0].slice(3);
+                if (!(canon in directory['chapters'])) {
+                    directory['order'][relativeArray[0][0]] = canon;
+                    directory['chapters'][canon] = [];
                 }
-                directory['chapters'][relativeArray[0]].push(data.title || relativeArray[1]);
-
+                directory['chapters'][canon].push(data.title || relativeArray[1]);
             }))
             .pipe(gulp.dest('./dist'))
             .on('finish', () => {
+                let newOrder = [];
+                for (let i = 0; i < directory.order.length; i++) {
+                    if (directory.order[i] != null) {
+                        newOrder.push(directory.order[i]);
+                    }
+                }
+                directory.order = newOrder;
                 fs.readFile('./src/views/templates/chapter.hbs', 'utf8', (err, templateString) => {
                     let template = handlebars.compile(templateString);
                     console.log(directory);

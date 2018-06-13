@@ -1,9 +1,9 @@
 {{#> templates/base header=title}}
 {{#* inline "content"}}
-{{#each chapters}}
-<h1>{{@key}}</h1>
-    {{#each this}}
-    <p class="page-entry">{{this}}</p>
+{{#each order as |main|}}
+<h1>{{this}}</h1>
+    {{#each (lookup @root/chapters this) as |sub|}}
+    <p class="page-entry">{{sub}}</p>
     {{/each}}
 {{/each}}
 {{/inline}}
