@@ -2,8 +2,9 @@
   "name": "sheep-sorrel",
   "version": "1.0.0",
   "description": "A book generator in JS, inspired by Pollen",
-  "main": "index.js",
+  "main": "gulpfile.js",
   "scripts": {
+    "start": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -15,7 +16,11 @@
   "dependencies": {
     "del": "^3.0.0",
     "gulp": "^4.0.0",
-    "gulp-compile-handlebars": "^0.6.1",
-    "gulp-sass": "^4.0.1"
+    "gulp-markdown-to-json": "^1.1.0",
+    "gulp-rename": "^1.3.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-tap": "^1.0.1",
+    "handlebars": "^4.0.11",
+    "marked": "^0.4.0"
   }
 }

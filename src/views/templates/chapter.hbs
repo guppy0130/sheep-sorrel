@@ -1,0 +1,10 @@
+{{#> templates/base}}
+    {{#* inline "content"}}
+        {{#each this}}
+            <h1>{{@key}}</h1>
+            {{#each this}}
+                <h2>{{this}}</h2>
+            {{/each}}
+        {{/each}}
+    {{/inline}}
+{{/templates/base}}
