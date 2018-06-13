@@ -1,10 +1,11 @@
-{{#> templates/base}}
-    {{#* inline "content"}}
-        {{#each this}}
-            <h1>{{@key}}</h1>
-            {{#each this}}
-                <h2>{{this}}</h2>
-            {{/each}}
-        {{/each}}
-    {{/inline}}
+{{#> templates/base header=title}}
+{{#* inline "content"}}
+<h3>{{title}}</h3>
+{{#each chapters}}
+<h1>{{@key}}</h1>
+    {{#each this}}
+    <h2>{{this}}</h2>
+    {{/each}}
+{{/each}}
+{{/inline}}
 {{/templates/base}}
