@@ -8,6 +8,8 @@ const handlebars = require('handlebars');
 const rename = require('gulp-rename');
 const tap = require('gulp-tap');
 const path = require('path');
+const browserSync = require('browser-sync');
+const hygienist = require('hygienist-middleware');
 
 marked.setOptions({
     pedantic: true,
@@ -17,49 +19,37 @@ marked.setOptions({
 gulp.task('del', () => {
     try {
         fs.statSync('./dist');
-    } catch {
+    } catch (e) {
         fs.mkdirSync('./dist');
     }
     return del(['./dist/*', '!./dist']);
 });
 
-gulp.task('handlebars', (done) => {
+gulp.task('pages', (done) => {
     ['partials/header', 'partials/footer', 'templates/base'].forEach(name => {
         fs.readFile('./src/views/' + name + '.hbs', 'utf8', (err, templateString) => {
             handlebars.registerPartial(name, templateString);
         });
     });
-    done();
-});
 
-gulp.task('pages', (done) => {
-    let template;
+    let directory = {
+        title: 'Super Duper Testing',
+        chapters: {}
+    };
+
     fs.readFile('./src/views/templates/page.hbs', 'utf8', (err, templateString) => {
-        template = handlebars.compile(templateString);
+        let template = handlebars.compile(templateString);
         return gulp.src('./src/content/**/*.md')
             .pipe(markdown(marked))
-            .pipe(tap((file, t) => {
-                file.contents = Buffer.from(template(JSON.parse(file.contents.toString())));
-            })).pipe(rename({
+            .pipe(rename({
                 extname: '.html'
-            })).pipe(gulp.dest('./dist'))
-            .on('finish', () => {
-                done();
-            });
-    });
-});
-
-gulp.task('chapters', (done) => {
-    let directory = {},
-        template;
-    directory['title'] = 'Super duper testing';
-    directory['chapters'] = {};
-    fs.readFile('./src/views/templates/chapter.hbs', 'utf8', (err, templateString) => {
-        template = handlebars.compile(templateString);
-        return gulp.src('./src/content/**/*.md')
+            }))
             .pipe(tap((file, t) => {
-                let relativePath = path.relative(__dirname + '/src/content', file.path);
-                let relativeArray = relativePath.split(path.sep);
+                let data = JSON.parse(file.contents.toString());
+                console.log(data);
+                file.contents = Buffer.from(template(data));
+
+                let relativeArray = path.relative(__dirname + '/src/content', file.path).split(path.sep);
 
                 if (relativeArray.length >= 3) {
                     throw new Error('only files one folder deep are allowed.');
@@ -67,20 +57,45 @@ gulp.task('chapters', (done) => {
                 if (!(relativeArray[0] in directory['chapters'])) {
                     directory['chapters'][relativeArray[0]] = [];
                 }
-                directory['chapters'][relativeArray[0]].push(relativeArray[1]);
-            })).on('finish', () => {
-                console.log(directory);
-                let html = template(directory);
-                fs.writeFile('./dist/index.html', html, (err) => {
-                    if (err) {
-                        throw err;
-                    } else {
-                        return done();
-                    }
+                directory['chapters'][relativeArray[0]].push(data.title || relativeArray[1]);
+
+            }))
+            .pipe(gulp.dest('./dist'))
+            .on('finish', () => {
+                fs.readFile('./src/views/templates/chapter.hbs', 'utf8', (err, templateString) => {
+                    let template = handlebars.compile(templateString);
+                    console.log(directory);
+                    fs.writeFile('./dist/index.html', template(directory), err => {
+                        if (err) {
+                            throw err;
+                        } else {
+                            done();
+                        }
+                    });
                 });
+                done();
             });
     });
-
 });
 
-gulp.task('default', gulp.series('del', 'handlebars', gulp.parallel('chapters', 'pages')));
+gulp.task('sass', () => {
+    return gulp.src('./src/**/*.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('reload', (done) => {
+    browserSync.reload();
+    done();
+});
+
+gulp.task('default', gulp.series('del', gulp.parallel( 'pages', 'sass'), () => {
+    browserSync.init({
+        server: {
+            baseDir: './dist',
+            middleware: hygienist('dist')
+        }
+    });
+    gulp.watch(['./src/**/*.sass'], gulp.series('sass', 'reload'));
+    gulp.watch(['./src/**/*.(hbs|md)'], gulp.series('pages', 'reload'));
+}));
