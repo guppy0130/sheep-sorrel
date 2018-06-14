@@ -1,10 +1,15 @@
 {{#> templates/base header=title includeFooter=false}}
 {{#* inline "content"}}
-{{#each order as |main|}}
-<h1>{{main}}</h1>
-    {{#each (lookup @root/chapters this) as |sub|}}
-    <p><a class="page-entry" href="{{linkify main}}/{{linkify sub}}">{{sub}}</a></p>
+<div id="chapter-page-content">
+    <h1>{{title}}</h1>
+    {{#each order as |main|}}
+    <section>
+        <h2 class="chapter-title">{{main}}</h2>
+        {{#each (lookup @root/chapters this) as |sub|}}
+        <p><a class="page-entry" href="{{linkify main}}/{{linkify sub}}">{{sub}}</a></p>
+        {{/each}}
+    </section>
     {{/each}}
-{{/each}}
+</div>
 {{/inline}}
 {{/templates/base}}

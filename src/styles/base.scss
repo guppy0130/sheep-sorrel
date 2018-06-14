@@ -4,6 +4,8 @@ body {
     font-family: $serif;
     background-color: $background;
     color: $foreground;
+    font-size: 1.3em;
+    line-height: 1.4;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -13,8 +15,6 @@ h1, h2, h3, h4, h5, h6 {
 article {
     width: 50vw;
     margin: 0 auto;
-    font-size: 1.3em;
-    line-height: 1.4;
 }
 
 a {
@@ -24,7 +24,6 @@ a {
 footer {
     width: 50vw;
     margin: 0 auto;
-    font-size: 1.3em;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -32,8 +31,30 @@ footer {
 }
 
 footer a {
-    color: $footer;
+    color: $border;
     padding: 1em 0;
+    text-decoration: none;
+    position: relative;
+}
+
+.top-link::before, .chapter-link::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: $border;
+    visibility: hidden;
+    transform: scaleX(0);
+    -webkit-transform: scaleX(0);
+    transition: all 0.2s ease-in-out 0s;
+    -webkit-transition: all 0.2s ease-in-out 0s;
+}
+
+.top-link:hover::before, .chapter-link:hover::before {
+    visibility: visible;
+    transform: scaleX(1);
 }
 
 .previous-link {
@@ -61,4 +82,25 @@ footer a {
     padding-left: 1em;
     flex-grow: 1;
     text-align: right;
+}
+
+.left-arrow {
+    padding-right: 0.5em;
+}
+
+.right-arrow {
+    padding-left: 0.5em;
+}
+
+#chapter-page-content {
+    width: 50vw;
+    margin: 0 auto;
+}
+
+#chapter-page-content .chapter-title {
+
+}
+
+#chapter-page-content .page-entry {
+
 }

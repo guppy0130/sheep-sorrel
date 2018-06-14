@@ -1,13 +1,13 @@
 <footer>
     {{#if prev}}
-    <a href="./{{linkify prev}}" class="previous-link">{{prev}}</a>
+    <a href="./{{linkify prev}}" class="previous-link"><span class="left-arrow">&larr;</span>{{prev}}</a>
     {{else}}
     <div class="previous-link"></div>
     {{/if}}
     <a href="/" class="top-link">Top</a>
     <a href="./{{linkify chapter}}" class="chapter-link">Chapter</a>
     {{#if next}}
-    <a href="./{{linkify next}}" class="next-link">{{next}}</a>
+    <a href="./{{linkify next}}" class="next-link">{{next}}<span class="right-arrow">&rarr;</span></a>
     {{else}}
     <div class="next-link"></div>
     {{/if}}
