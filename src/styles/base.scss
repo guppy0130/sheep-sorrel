@@ -9,3 +9,55 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: $sans;
 }
+
+article {
+    width: 50vw;
+    margin: 0 auto;
+    font-size: 1.3em;
+}
+
+a {
+    color: $accent;
+}
+
+footer {
+    width: 50vw;
+    margin: 0 auto;
+    font-size: 1.3em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid $border;
+}
+
+footer a {
+    color: $footer;
+    padding: 1em 0;
+}
+
+.previous-link {
+    width: 40%;
+    padding-right: 1em;
+    flex-grow: 1;
+    text-align: left;
+    border-right: 1px solid $border;
+}
+
+.top-link {
+    width: 7%;
+    border-right: 1px solid $border;
+    padding: 1em;
+}
+
+.chapter-link {
+    width: 13%;
+    border-right: 1px solid $border;
+    padding: 1em;
+}
+
+.next-link {
+    width: 40%;
+    padding-left: 1em;
+    flex-grow: 1;
+    text-align: right;
+}

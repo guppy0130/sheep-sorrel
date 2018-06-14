@@ -26,25 +26,34 @@ gulp.task('del', () => {
 });
 
 gulp.task('pages', (done) => {
+    let directory = {
+        title: 'Book Title',
+        chapters: {},
+        order: [],
+        current: ''
+    };
+
+    let linkify = (link) => {
+        if (link == null) {
+            return null;
+        }
+        return link.toLowerCase().replace(/\s/gi, '-');
+    };
+
     ['partials/header', 'partials/footer', 'templates/base'].forEach(name => {
         fs.readFile('./src/views/' + name + '.hbs', 'utf8', (err, templateString) => {
             handlebars.registerPartial(name, templateString);
         });
     });
 
-    let directory = {
-        title: 'Book Title',
-        chapters: {},
-        order: []
-    };
+    handlebars.registerHelper('linkify', (input) => {
+        return linkify(input);
+    });
 
     fs.readFile('./src/views/templates/page.hbs', 'utf8', (err, templateString) => {
         let template = handlebars.compile(templateString);
         return gulp.src('./src/content/**/*.md')
             .pipe(markdown(marked))
-            .pipe(rename({
-                extname: '.html'
-            }))
             .pipe(tap((file, t) => {
                 let data = JSON.parse(file.contents.toString());
                 file.contents = Buffer.from(template(data));
@@ -56,10 +65,18 @@ gulp.task('pages', (done) => {
                 }
                 let canon = relativeArray[0].slice(3);
                 if (!(canon in directory['chapters'])) {
-                    directory['order'][relativeArray[0][0]] = canon;
+                    directory['order'][relativeArray[0][0]] = canon; //uses the first character of folder name to place element in array
                     directory['chapters'][canon] = [];
                 }
-                directory['chapters'][canon].push(data.title || relativeArray[1]);
+                let current = data.title || relativeArray[1].replace('.json', '');
+                directory.current = current;
+                directory['chapters'][canon].push(current);
+            }))
+            .pipe(rename(path => {
+                path.dirname = linkify(path.dirname.slice(3));
+                path.basename = linkify(directory.current);
+                path.extname = '.html';
+                directory.current = '';
             }))
             .pipe(gulp.dest('./dist'))
             .on('finish', () => {
@@ -104,6 +121,6 @@ gulp.task('default', gulp.series('del', gulp.parallel( 'pages', 'sass'), () => {
             middleware: hygienist('dist')
         }
     });
-    gulp.watch(['./src/**/*.sass'], gulp.series('sass', 'reload'));
+    gulp.watch(['./src/**/*.scss'], gulp.series('sass', 'reload'));
     gulp.watch(['./src/**/*.(hbs|md)'], gulp.series('pages', 'reload'));
 }));

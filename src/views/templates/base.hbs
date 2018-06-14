@@ -8,6 +8,8 @@
     <body>
         {{> partials/header}}
         {{> content}}
+        {{#if includeFooter}}
         {{> partials/footer}}
+        {{/if}}
     </body>
 </html>
