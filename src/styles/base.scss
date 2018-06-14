@@ -4,7 +4,7 @@ body {
     font-family: $serif;
     background-color: $background;
     color: $foreground;
-    font-size: 1.3em;
+    font-size: 1.4em;
     line-height: 1.4;
 }
 
@@ -18,7 +18,12 @@ article {
 }
 
 a {
-    color: $accent;
+    color: $foreground;
+    text-decoration: none;
+}
+
+article a {
+    text-decoration: underline;
 }
 
 footer {
@@ -35,6 +40,10 @@ footer a {
     padding: 1em 0;
     text-decoration: none;
     position: relative;
+}
+
+footer a:hover {
+    text-decoration: none;
 }
 
 .top-link::before, .chapter-link::before {
@@ -97,10 +106,21 @@ footer a {
     margin: 0 auto;
 }
 
-#chapter-page-content .chapter-title {
-
+#chapter-page-content .chapter-contents {
+    column-count: 2;
+    list-style-type: none;
+    line-height: 2;
+    column-gap: 2em;
 }
 
 #chapter-page-content .page-entry {
+    display: inline-block;
+    width: calc(100% - 1em);
+    border-radius: 4px;
+    padding: 0.2em 0.8em;
+}
 
+.page-entry:hover {
+    background-color: $accent;
+    color: $background;
 }

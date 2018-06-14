@@ -5,9 +5,11 @@
     {{#each order as |main|}}
     <section>
         <h2 class="chapter-title">{{main}}</h2>
-        {{#each (lookup @root/chapters this) as |sub|}}
-        <p><a class="page-entry" href="{{linkify main}}/{{linkify sub}}">{{sub}}</a></p>
-        {{/each}}
+        <ul class="chapter-contents">
+            {{#each (lookup @root/chapters this) as |sub|}}
+            <li><a class="page-entry" href="{{linkify main}}/{{linkify sub}}">{{sub}}</a></li>
+            {{/each}}
+        </ul>
     </section>
     {{/each}}
 </div>
