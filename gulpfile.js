@@ -109,12 +109,20 @@ gulp.task('sass', () => {
         .pipe(gulp.dest('./dist'));
 });
 
+gulp.task('images', () => {
+    return gulp.src('./src/content/**/*.{jpg,png}')
+        .pipe(tap((file, t) => {
+            console.log(file.path);
+        }))
+        .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('reload', (done) => {
     browserSync.reload();
     done();
 });
 
-gulp.task('default', gulp.series('del', gulp.parallel( 'pages', 'sass'), () => {
+gulp.task('default', gulp.series('del', gulp.parallel('pages', 'sass'), () => {
     browserSync.init({
         server: {
             baseDir: './dist',
@@ -122,5 +130,5 @@ gulp.task('default', gulp.series('del', gulp.parallel( 'pages', 'sass'), () => {
         }
     });
     gulp.watch(['./src/**/*.scss'], gulp.series('sass', 'reload'));
-    gulp.watch(['./src/**/*.(hbs|md)'], gulp.series('pages', 'reload'));
+    gulp.watch(['./src/**/*.{hbs,md}'], gulp.series('pages', 'reload'));
 }));
