@@ -11,6 +11,14 @@ const path = require('path');
 const browserSync = require('browser-sync');
 const hygienist = require('hygienist-middleware');
 
+let directory = {
+    title: 'Book Title',
+    chapters: {},
+    order: [],
+    current: '',
+    indexImage: false
+};
+
 marked.setOptions({
     pedantic: true,
     smartypants: true
@@ -26,18 +34,9 @@ gulp.task('del', () => {
 });
 
 gulp.task('pages', (done) => {
-    let directory = {
-        title: 'Book Title',
-        chapters: {},
-        order: [],
-        current: ''
-    };
 
     let linkify = (link) => {
-        if (link == null) {
-            return null;
-        }
-        return link.toLowerCase().replace(/\s/gi, '-');
+        return ((link == null) ? null : link.toLowerCase().replace(/\s/gi, '-'));
     };
 
     ['partials/header', 'partials/footer', 'templates/base'].forEach(name => {
@@ -112,7 +111,10 @@ gulp.task('sass', () => {
 gulp.task('images', () => {
     return gulp.src('./src/content/**/*.{jpg,png}')
         .pipe(tap((file, t) => {
-            console.log(file.path);
+            console.log(path.relative(__dirname + '/src/content', file.path));
+            if (path.relative(__dirname + '/src/content', file.path) === 'index.jpg') {
+                directory.indexImage = true;
+            }
         }))
         .pipe(gulp.dest('./dist'));
 });
@@ -122,7 +124,7 @@ gulp.task('reload', (done) => {
     done();
 });
 
-gulp.task('default', gulp.series('del', gulp.parallel('pages', 'sass'), () => {
+gulp.task('default', gulp.series('del', 'images', gulp.parallel('pages', 'sass'), () => {
     browserSync.init({
         server: {
             baseDir: './dist',
