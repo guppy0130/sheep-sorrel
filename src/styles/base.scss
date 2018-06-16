@@ -158,7 +158,7 @@ footer a:hover {
     color: $background;
 }
 
-@media screen and (max-width: map-get($breakpoints, "medium")) {
+@media screen and (max-width: map-get($breakpoints, "large")) {
     footer {
         flex-direction: column;
         align-items: center;
