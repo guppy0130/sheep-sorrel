@@ -35,6 +35,7 @@ gulp.task('del', () => {
 });
 
 gulp.task('pages', (done) => {
+    let directoryCopy = JSON.parse(JSON.stringify(directory));
 
     let linkify = (link) => {
         return ((link == null) ? null : link.toLowerCase().replace(/\s/gi, '-'));
@@ -64,33 +65,33 @@ gulp.task('pages', (done) => {
                     throw new Error('only files one folder deep are allowed.');
                 }
                 let canon = relativeArray[0].slice(3);
-                if (!(canon in directory['chapters'])) {
-                    directory['order'][relativeArray[0][0]] = canon; //uses the first character of folder name to place element in array
-                    directory['chapters'][canon] = [];
+                if (!(canon in directoryCopy['chapters'])) {
+                    directoryCopy['order'][relativeArray[0][0]] = canon; //uses the first character of folder name to place element in array
+                    directoryCopy['chapters'][canon] = [];
                 }
                 let current = data.title || relativeArray[1].replace('.json', '');
-                directory.current = current;
-                directory['chapters'][canon].push(current);
+                directoryCopy.current = current;
+                directoryCopy['chapters'][canon].push(current);
             }))
             .pipe(rename(path => {
                 path.dirname = linkify(path.dirname.slice(3));
-                path.basename = linkify(directory.current);
+                path.basename = linkify(directoryCopy.current);
                 path.extname = '.html';
-                directory.current = '';
+                directoryCopy.current = '';
             }))
             .pipe(gulp.dest('./dist'))
             .on('finish', () => {
                 let newOrder = [];
-                for (let i = 0; i < directory.order.length; i++) {
-                    if (directory.order[i] != null) {
-                        newOrder.push(directory.order[i]);
+                for (let i = 0; i < directoryCopy.order.length; i++) {
+                    if (directoryCopy.order[i] != null) {
+                        newOrder.push(directoryCopy.order[i]);
                     }
                 }
-                directory.order = newOrder;
+                directoryCopy.order = newOrder;
                 fs.readFile('./src/views/templates/chapter.hbs', 'utf8', (err, templateString) => {
                     let template = handlebars.compile(templateString);
-                    console.log(directory);
-                    fs.writeFile('./dist/index.html', template(directory), err => {
+                    console.log(directoryCopy);
+                    fs.writeFile('./dist/index.html', template(directoryCopy), err => {
                         if (err) {
                             throw err;
                         } else {
