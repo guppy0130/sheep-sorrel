@@ -12,7 +12,7 @@
 |---------------------------|-----------------------------------|
 | Book title                | `gulpfile.js::directory.title`    |
 | Content                   | `src/content`                     |
-| Fonts/colors/breakpoints  | `src/styles`                      |
+| Fonts/colors/breakpoints  | `src/styles/_user.scss`           |
 | Cover image               | `src/content/index.jpg`           |
 | Header/footer             | `src/views/partials`              |
 | Markup                    | `gulpfile.js::marked`             |
