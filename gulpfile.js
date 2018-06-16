@@ -97,7 +97,6 @@ gulp.task('pages', (done) => {
                         }
                     });
                 });
-                done();
             });
     });
 });
