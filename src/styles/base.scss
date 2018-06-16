@@ -1,11 +1,40 @@
 @import 'user';
 
+$breakpoints: (
+    'small': 0px,
+    'medium': 768px,
+    'large': 1100px
+);
+
+$widths: (
+    'small': 85vw,
+    'medium': 66vw,
+    'large': 50vw
+);
+
+$font-sizes: (
+    'small': 1.2em,
+    'medium': 1.3em,
+    'large': 1.4em
+);
+
+@mixin width-calc($var-name, $input, $breakpoint: $breakpoints) {
+    @each $input-breakpoint, $width in $input {
+        @if map-has-key($breakpoint, $input-breakpoint) {
+            $input-breakpoint: map-get($breakpoint, $input-breakpoint);
+        }
+        @media screen and (min-width: $input-breakpoint) {
+            #{$var-name}: $width;
+        }
+    }
+}
+
 body {
     font-family: $serif;
     background-color: $background;
     color: $foreground;
-    font-size: 1.4em;
     line-height: 1.4;
+    @include width-calc(font-size, $font-sizes);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -13,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 article {
-    width: 50vw;
+    @include width-calc(width, $widths);
     margin: 0 auto;
 }
 
@@ -27,7 +56,7 @@ article a {
 }
 
 footer {
-    width: 50vw;
+    @include width-calc(width, $widths);
     margin: 0 auto;
     text-align: center;
     display: flex;
@@ -102,7 +131,7 @@ footer a:hover {
 }
 
 #chapter-page-content {
-    width: 50vw;
+    @include width-calc(width, $widths);
     margin: 0 auto;
 }
 
@@ -127,4 +156,15 @@ footer a:hover {
 .page-entry:hover {
     background-color: $accent;
     color: $background;
+}
+
+@media screen and (max-width: map-get($breakpoints, "medium")) {
+    footer {
+        flex-direction: column;
+        align-items: center;
+    }
+    a.previous-link, a.top-link, a.chapter-link {
+        border: none;
+        width: 100%;
+    }
 }
