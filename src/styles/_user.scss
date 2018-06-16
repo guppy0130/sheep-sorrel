@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Vollkorn|Share+Tech');
+
+$serif: 'Vollkorn', serif;
+$sans: 'Share Tech', sans-serif;
+
+$background: #fff;
+$foreground: #111;
+$accent: #e87ea1;
+$border: #444;
+
+$breakpoints: (
+    'small': 0,
+    'medium': 768px,
+    'large': 1100px
+);
+
+$widths: (
+    'small': 85vw,
+    'medium': 66vw,
+    'large': 50vw
+);
+
+$font-sizes: (
+    'small': 1.2em,
+    'medium': 1.3em,
+    'large': 1.4em
+);

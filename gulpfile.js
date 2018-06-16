@@ -10,6 +10,7 @@ const tap = require('gulp-tap');
 const path = require('path');
 const browserSync = require('browser-sync');
 const hygienist = require('hygienist-middleware');
+const prefixer = require('gulp-autoprefixer');
 
 let directory = {
     title: 'Book Title',
@@ -103,7 +104,10 @@ gulp.task('pages', (done) => {
 
 gulp.task('sass', () => {
     return gulp.src('./src/**/*.scss')
-        .pipe(sass())
+        .pipe(sass({
+            outputStyle: 'compressed'
+        }))
+        .pipe(prefixer())
         .pipe(gulp.dest('./dist'));
 });
 

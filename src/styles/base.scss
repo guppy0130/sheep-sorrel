@@ -1,23 +1,5 @@
 @import 'user';
 
-$breakpoints: (
-    'small': 0px,
-    'medium': 768px,
-    'large': 1100px
-);
-
-$widths: (
-    'small': 85vw,
-    'medium': 66vw,
-    'large': 50vw
-);
-
-$font-sizes: (
-    'small': 1.2em,
-    'medium': 1.3em,
-    'large': 1.4em
-);
-
 @mixin width-calc($var-name, $input, $breakpoint: $breakpoints) {
     @each $input-breakpoint, $width in $input {
         @if map-has-key($breakpoint, $input-breakpoint) {
@@ -30,11 +12,11 @@ $font-sizes: (
 }
 
 body {
-    font-family: $serif;
+    @include width-calc(font-size, $font-sizes);
     background-color: $background;
     color: $foreground;
+    font-family: $serif;
     line-height: 1.4;
-    @include width-calc(font-size, $font-sizes);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -44,6 +26,10 @@ h1, h2, h3, h4, h5, h6 {
 article {
     @include width-calc(width, $widths);
     margin: 0 auto;
+
+    a {
+        text-decoration: underline;
+    }
 }
 
 a {
@@ -51,75 +37,73 @@ a {
     text-decoration: none;
 }
 
-article a {
-    text-decoration: underline;
-}
-
 footer {
     @include width-calc(width, $widths);
-    margin: 0 auto;
-    text-align: center;
+    border-top: 1px solid $border;
     display: flex;
     justify-content: center;
-    border-top: 1px solid $border;
+    margin: 0 auto;
+    text-align: center;
+
+    a {
+        color: $border;
+        padding: 1em 0;
+        position: relative;
+        text-decoration: none;
+
+        :hover {
+            text-decoration: none;
+        }
+    }
 }
 
-footer a {
-    color: $border;
-    padding: 1em 0;
-    text-decoration: none;
-    position: relative;
-}
+.top-link, .chapter-link {
+    &::before {
+        background-color: $border;
+        bottom: 0;
+        content: '';
+        height: 2px;
+        left: 0;
+        position: absolute;
+        transform: scaleX(0);
+        transition: transform 0.2s ease-in-out 0s;
+        visibility: hidden;
+        width: 100%;
+    }
 
-footer a:hover {
-    text-decoration: none;
-}
-
-.top-link::before, .chapter-link::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: $border;
-    visibility: hidden;
-    transform: scaleX(0);
-    -webkit-transform: scaleX(0);
-    transition: all 0.2s ease-in-out 0s;
-    -webkit-transition: all 0.2s ease-in-out 0s;
-}
-
-.top-link:hover::before, .chapter-link:hover::before {
-    visibility: visible;
-    transform: scaleX(1);
+    &:hover {
+        &::before {
+            transform: scaleX(1);
+            visibility: visible;
+        }
+    }
 }
 
 .previous-link {
-    width: 40%;
-    padding-right: 1em;
-    flex-grow: 1;
-    text-align: left;
     border-right: 1px solid $border;
+    flex-grow: 1;
+    padding-right: 1em;
+    text-align: left;
+    width: 40%;
 }
 
 .top-link {
-    width: 7%;
     border-right: 1px solid $border;
     padding: 1em;
+    width: 7%;
 }
 
 .chapter-link {
-    width: 13%;
     border-right: 1px solid $border;
     padding: 1em;
+    width: 13%;
 }
 
 .next-link {
-    width: 40%;
-    padding-left: 1em;
     flex-grow: 1;
+    padding-left: 1em;
     text-align: right;
+    width: 40%;
 }
 
 .left-arrow {
@@ -133,38 +117,43 @@ footer a:hover {
 #chapter-page-content {
     @include width-calc(width, $widths);
     margin: 0 auto;
-}
 
-#chapter-page-content .chapter-contents {
-    column-count: 2;
-    list-style-type: none;
-    line-height: 2;
-    column-gap: 2em;
-}
-
-#chapter-page-content .page-entry {
-    display: inline-block;
-    width: calc(100% - 1em);
-    border-radius: 4px;
-    padding: 0.2em 0.8em;
-}
-
-#chapter-page-content img {
-    width: 100%;
-}
-
-.page-entry:hover {
-    background-color: $accent;
-    color: $background;
-}
-
-@media screen and (max-width: map-get($breakpoints, "large")) {
-    footer {
-        flex-direction: column;
-        align-items: center;
+    .chapter-contents {
+        column-count: 2;
+        column-gap: 2em;
+        line-height: 2;
+        list-style-type: none;
     }
-    a.previous-link, a.top-link, a.chapter-link {
-        border: none;
+
+    .page-entry {
+        border-radius: 4px;
+        display: inline-block;
+        padding: 0.2em 0.8em;
+        width: calc(100% - 1em);
+    }
+
+    img {
         width: 100%;
+    }
+}
+
+.page-entry {
+    &:hover {
+        background-color: $accent;
+        color: $background;
+    }
+}
+
+@media screen and (max-width: map-get($breakpoints, 'large')) {
+    footer {
+        align-items: center;
+        flex-direction: column;
+    }
+
+    a {
+        &.previous-link, &.top-link, &.chapter-link {
+            border: 0;
+            width: 100%;
+        }
     }
 }
