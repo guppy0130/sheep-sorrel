@@ -1,8 +1,10 @@
-{{#> templates/base header=title includeFooter=true}}
+{{#> templates/base header=title}}
 {{#* inline "content"}}
+{{> partials/header}}
 <article>
     <h1>{{title}}</h1>
     {{{body}}}
 </article>
+{{> partials/footer}}
 {{/inline}}
 {{/templates/base}}
