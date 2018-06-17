@@ -138,3 +138,13 @@ gulp.task('default', gulp.series('del', 'images', gulp.parallel('pages', 'sass')
     gulp.watch(['./src/**/*.scss'], gulp.series('sass', 'reload'));
     gulp.watch(['./src/**/*.{hbs,md}'], gulp.series('pages', 'reload'));
 }));
+
+gulp.task('test', gulp.series('images', gulp.parallel('pages', 'sass'), () => {
+    browserSync.init({
+        server: {
+            baseDir: './dist',
+            middleware: hygienist('dist'),
+            open: false
+        }
+    });
+}));
