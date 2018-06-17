@@ -2,6 +2,9 @@
 
 set -ev
 
+# create a random cover
+mx=320;my=256;head -c "$((3*mx*my))" /dev/urandom | convert -depth 8 -size "${mx}x${my}" RGB:- ./src/content/index.jpg
+
 mkdir "./src/content/1. Introduction"
 
 touch "./src/content/1. Introduction/page-1.md"
