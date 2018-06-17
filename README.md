@@ -2,6 +2,8 @@
 
 ## A Pollen-inspired book-generator in JS
 
+[![Build Status](https://travis-ci.org/guppy0130/sheep-sorrel.svg?branch=master)](https://travis-ci.org/guppy0130/sheep-sorrel)
+
 ### Installation
 * `git clone` this repo
 * `npm i` the dependencies
