@@ -151,9 +151,10 @@ footer {
     }
 
     a {
-        &.previous-link, &.top-link, &.chapter-link {
+        &.previous-link, &.top-link, &.chapter-link, &.next-link {
             border: 0;
             width: 100%;
+            text-align: center;
         }
     }
 }
