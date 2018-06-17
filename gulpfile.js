@@ -144,7 +144,8 @@ gulp.task('test', gulp.series('images', gulp.parallel('pages', 'sass'), () => {
         server: {
             baseDir: './dist',
             middleware: hygienist('dist'),
-            open: false
-        }
+        },
+        open: false,
+        notify: false
     });
 }));

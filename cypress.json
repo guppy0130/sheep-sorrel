@@ -3,6 +3,5 @@
     "pluginsFile": false,
     "supportFile": false,
     "video": false,
-    "integrationFolder": "testing/cypress/integrations",
-    "screenshotsFolder": "testing/cypress/screenshots"
+    "fixturesFolder": false
 }
