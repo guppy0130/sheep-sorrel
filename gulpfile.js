@@ -74,7 +74,6 @@ gulp.task('pages', (done) => {
                 directoryCopy['chapters'][canon].push(current);
 
                 data.url = `${directory.url}/${linkify(`${canon}/${current}`)}`;
-                console.log(directory.url);
                 data.root = directory.url;
                 data.bookTitle = directory.title;
                 file.contents = Buffer.from(template(data));
