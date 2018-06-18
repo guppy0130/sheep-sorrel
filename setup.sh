@@ -14,6 +14,7 @@ prev:
 next: Page 2
 chapter: Page 1
 title: Page 1
+summary: summary of page 1
 ---
 some content from page one
 EOT
@@ -25,6 +26,7 @@ prev: Page 1
 next:
 chapter: Page 1
 title: Page 2
+summary: summary of page 2
 ---
 some content from page two
 EOT
@@ -38,6 +40,7 @@ prev:
 next:
 chapter: Title of Chapter 1
 title: Title of Chapter 1
+summary: summary of title of chapter 1
 ---
 ## How Writing E2E Tests is Harder than Expected
 

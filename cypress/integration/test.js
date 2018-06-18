@@ -1,5 +1,6 @@
 const title = '"Share Tech", sans-serif';
 const text = 'Vollkorn, serif';
+const url = 'http://localhost:3000';
 
 describe('Visit the title page', () => {
     it('loads the page', () => {
@@ -16,6 +17,20 @@ describe('Visit the title page', () => {
         cy.get('img')
             .should('be.visible')
             .and('have.css', 'width');
+    });
+
+    it('has the correct metadata', () => {
+        cy.get('head title')
+            .should('contain', 'Book Title');
+
+        cy.get('head meta[property="og:image"]')
+            .should('have.attr', 'content', `${url}/index.jpg`);
+
+    });
+
+    it('is mobile friendly', () => {
+        cy.get('head meta[name="viewport"]')
+            .should('have.attr', 'content', 'width=device-width, initial-scale=1');
     });
 
     it('has the introduction chapter', () => {
@@ -52,6 +67,29 @@ describe('Click Introduction::Page 1', () => {
 
         cy.url()
             .should('contain', '/introduction/page-1');
+    });
+
+    it('has the correct metadata', () => {
+        cy.get('head meta[name=description]')
+            .should('have.attr', 'content', 'summary of page 1');
+
+        cy.get('head meta[property="og:title"]')
+            .should('have.attr', 'content', 'Page 1');
+
+        cy.get('head meta[property="og:description"]')
+            .should('have.attr', 'content', 'summary of page 1');
+
+        cy.get('head meta[property="og:site_name"]')
+            .should('have.attr', 'content', 'Book Title');
+
+        cy.get('head meta[property="og:image"]')
+            .should('have.attr', 'content', `${url}/index.jpg`);
+
+        cy.get('head meta[property="og:url"]')
+            .should('have.attr', 'content', `${url}/introduction/page-1`);
+
+        cy.get('head meta[property="og:type"]')
+            .should('have.attr', 'content', 'book');
     });
 
     it('has a title from yaml', () => {

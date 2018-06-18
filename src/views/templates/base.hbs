@@ -1,7 +1,17 @@
 <!doctype html>
-<html>
+{{log this}}
+<html lang="en">
     <head>
-        <title>{{header}}</title>
+        <title>{{title}}</title>
+        <meta charset="utf-8">
+        <meta name="description" content="{{summary}}">
+        <meta property="og:title" content="{{title}}">
+        <meta property="og:description" content="{{summary}}">
+        <meta property="og:site_name" content="{{bookTitle}}">
+        <meta property="og:image" content="{{root}}/index.jpg">
+        <meta property="og:url" content="{{url}}">
+        <meta property="og:type" content="book">
+        <meta property="og:book:release_date" content="{{updatedAt}}">
         <link rel="stylesheet" href="/styles/base.css" type="text/css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>

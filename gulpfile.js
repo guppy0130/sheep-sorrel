@@ -17,7 +17,8 @@ let directory = {
     chapters: {},
     order: [],
     current: '',
-    indexImage: false
+    indexImage: false,
+    url: 'http://localhost:3000'
 };
 
 marked.setOptions({
@@ -38,7 +39,7 @@ gulp.task('pages', (done) => {
     let directoryCopy = JSON.parse(JSON.stringify(directory));
 
     let linkify = (link) => {
-        return ((link == null) ? null : link.toLowerCase().replace(/\s/gi, '-'));
+        return ((link == null) ? null : encodeURI(link.toLowerCase().replace(/\s/gi, '-')));
     };
 
     ['partials/header', 'partials/footer', 'templates/base'].forEach(name => {
@@ -57,7 +58,6 @@ gulp.task('pages', (done) => {
             .pipe(markdown(marked))
             .pipe(tap((file, t) => {
                 let data = JSON.parse(file.contents.toString());
-                file.contents = Buffer.from(template(data));
 
                 let relativeArray = path.relative(__dirname + '/src/content', file.path).split(path.sep);
 
@@ -72,6 +72,12 @@ gulp.task('pages', (done) => {
                 let current = data.title || relativeArray[1].replace('.json', '');
                 directoryCopy.current = current;
                 directoryCopy['chapters'][canon].push(current);
+
+                data.url = `${directory.url}/${linkify(`${canon}/${current}`)}`;
+                console.log(directory.url);
+                data.root = directory.url;
+                data.bookTitle = directory.title;
+                file.contents = Buffer.from(template(data));
             }))
             .pipe(rename(path => {
                 path.dirname = linkify(path.dirname.slice(3));
@@ -90,7 +96,7 @@ gulp.task('pages', (done) => {
                 directoryCopy.order = newOrder;
                 fs.readFile('./src/views/templates/chapter.hbs', 'utf8', (err, templateString) => {
                     let template = handlebars.compile(templateString);
-                    console.log(directoryCopy);
+                    directoryCopy.root = directory.url;
                     fs.writeFile('./dist/index.html', template(directoryCopy), err => {
                         if (err) {
                             throw err;
@@ -115,7 +121,6 @@ gulp.task('sass', () => {
 gulp.task('images', () => {
     return gulp.src('./src/content/**/*.{jpg,png}')
         .pipe(tap((file, t) => {
-            console.log(path.relative(__dirname + '/src/content', file.path));
             if (path.relative(__dirname + '/src/content', file.path) === 'index.jpg') {
                 directory.indexImage = true;
             }
