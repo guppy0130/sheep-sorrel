@@ -15,7 +15,7 @@ next: Page 2
 chapter: Page 1
 title: Page 1
 ---
-## Page 1 Title
+some content from page one
 EOT
 
 touch "./src/content/1. Introduction/page-2.md"
@@ -26,7 +26,7 @@ next:
 chapter: Page 1
 title: Page 2
 ---
-## Page 2 Title
+some content from page two
 EOT
 
 mkdir "./src/content/2. Chapter 1"

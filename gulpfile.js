@@ -149,3 +149,16 @@ gulp.task('test', gulp.series('images', gulp.parallel('pages', 'sass'), () => {
         notify: false
     });
 }));
+
+gulp.task('test-active', gulp.series('images', gulp.parallel('pages', 'sass'), () => {
+    browserSync.init({
+        server: {
+            baseDir: './dist',
+            middleware: hygienist('dist'),
+        },
+        open: false,
+        notify: false
+    });
+    gulp.watch(['./src/**/*.scss'], gulp.series('sass', 'reload'));
+    gulp.watch(['./src/**/*.{hbs,md}'], gulp.series('pages', 'reload'));
+}));

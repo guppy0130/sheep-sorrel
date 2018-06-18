@@ -49,5 +49,14 @@ You may also opt to modify `src/views/partials/{header,footer}.hbs` to add your 
 ### Images
 Place an image named `index.jpg` at the root of `src/content` for a cover image. Responsive images coming soon.
 
+### Testing
+Testing is done with `cypress` (and automated with Travis). `setup.sh` sets up some source Markdown files and a cover image, and we test the end results. Use `npm test` for headless, automated testing (like for Travis), or `npm run test-active` to view the Cypress console (local debugging, for example).
+
+Things to test:
+* moving between pages
+* moving to top/chapter pages
+* has a cover image
+* has the correct fonts
+
 ### Deployment
 Deploy the `dist` folder to a static provider of your choice (my favorite is [surge.sh](surge.sh)).
