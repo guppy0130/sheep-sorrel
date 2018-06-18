@@ -5,11 +5,12 @@ dist: trusty
 sudo: false
 cache:
     directories:
-        - node_modules
+        - ~/.npm
+        - ~/.cache
 
 before_install:
     - chmod +x ./setup.sh
     - ./setup.sh
 
 install:
-    - npm i
+    - npm ci
