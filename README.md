@@ -37,6 +37,7 @@ prev: {the previous page}
 next: {the next page}
 chapter: {the chapter-top page}
 title: {your title}
+summary: {a summary of your content}
 ---
 your content here
 ```
