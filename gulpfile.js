@@ -12,6 +12,8 @@ const browserSync = require('browser-sync');
 const hygienist = require('hygienist-middleware');
 const prefixer = require('gulp-autoprefixer');
 
+sass.compiler = require('sass');
+
 let directory = {
     title: 'Book Title',
     chapters: {},
