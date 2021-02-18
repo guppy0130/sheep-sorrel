@@ -4,8 +4,8 @@ node_js:
     - node
 dist: xenial
 cache:
+    npm: true
     directories:
-        - ~/.npm
         - ~/.cache
 
 before_install:
