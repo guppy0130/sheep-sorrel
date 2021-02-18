@@ -1,6 +1,7 @@
 language: node_js
 node_js:
-    - "10.4.0"
+    - lts
+    - node
 dist: trusty
 sudo: false
 cache:
