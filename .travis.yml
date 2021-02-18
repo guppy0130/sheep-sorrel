@@ -2,8 +2,7 @@ language: node_js
 node_js:
     - lts/*
     - node
-dist: trusty
-sudo: false
+dist: xenial
 cache:
     directories:
         - ~/.npm
